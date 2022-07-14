@@ -1,22 +1,40 @@
 const express = require("express")
-const path = require("path")
-
+const bodyParser = require("body-parser")
+const cors = require("cors")
+const mysql = require("mysql")
 const PORT = process.env.PORT || 3001
-
 const app = express()
 
-const db = require("../db")
+const db = mysql.createPool({
+  host: "localhost",
+  port: "3306",
+  user: "root",
+  password: "root123",
+  database: "systempolldb"
+})
 
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(cors())
+app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
+app.get('/api/get', (req, res) => {
+  const sqlSelect = "SELECT * FROM systempolldb.polls"
+  db.query(sqlSelect, (err, result) => {
+    console.log(result)
+  })
+})
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
+app.post('/api/insert', (req, res) => {
+  const title = req.body.title
+  const start_date = req.body.start_date
+  const termination_date = req.body.termination_date
+
+  const sqlInsert = "INSERT INTO polls(title, start_date, termination_date) VALUES (?,?,?)"
+  db.query(sqlInsert, [title, start_date, termination_date], (err, result) => {
+    console.log(result)
+  })
+})
 
 app.listen(PORT, () => {
-    console.log(`Server listening on ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })

@@ -4,18 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/index.js",
+    "build": "cd client && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.1",
+    "mysql": "^2.18.1",
     "mysql2": "^2.3.3"
-  },
-  "scripts":{
-    "start": "node server/index.js",
-    "build": "cd client && npm install && npm run build"
   },
   "engines": {
     "node": "18.4.0"
