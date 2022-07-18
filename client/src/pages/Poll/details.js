@@ -1,14 +1,13 @@
 import Axios from "axios"
 import React, { useEffect, useState } from "react"
 import ReactDOM from 'react-dom';
-import { useHistory, useParams, Link } from 'react-router-dom'
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { useHistory, useParams } from 'react-router-dom'
+import { Modal, ModalHeader, ModalBody } from 'reactstrap'
 
 export default function Details() {
     const [optionsList, setOptionsList] = useState([])
-    const [optionsPercentValue, setOptionsPercentValue] = useState([])
     const [poll, setPoll] = useState({})
-    const [totalVotes, setTotalVotes] = useState(null)
+    const [totalVotes] = useState(null)
 
     const { pollId } = useParams()
 
@@ -37,7 +36,7 @@ export default function Details() {
         console.log(datetermination)
         console.log(today)
 
-        const progressnow = <p class="text-success">In progress, <Link to="/">vote now</Link>!</p>
+        const progressnow = <p class="text-success">In progress, vote now!</p>
         const finished = <p class="text-danger">Already Finished!</p>
         const pendent = <p class="text-warning">Not Started!</p>
 

@@ -61,7 +61,9 @@ export default function Poll() {
     const submitPoll = () => {
         var id_poll;
 
-        if(optionsList.length < 3){
+        if(start_date > termination_date){
+            alert("Start Date cannot be less the end date!")
+        }else if(optionsList.length < 3){
             alert("Add at least 3 options!")
         }else{
             Axios.post(`http://localhost:3001/api/poll/create`, {

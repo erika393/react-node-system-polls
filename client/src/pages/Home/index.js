@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import ReactDOM from 'react-dom';
 import { useHistory, Link } from 'react-router-dom'
 import "../../App.css";
 import Axios from "axios"
@@ -6,10 +7,6 @@ import Axios from "axios"
 //add component do fontawesome
 
 export default function Home() {
-    const [title, setTitle] = useState("")
-    const [start_date, setStart_date] = useState("")
-    const [termination_date, setTermination_date] = useState("")
-    const [newStart_Date, setNewStart_Date] = useState("")
     const [pollList, setPollList] = useState([])
 
     const history = useHistory()
@@ -30,6 +27,26 @@ export default function Home() {
 
     const dateFormat = (date) => {
         return (new Date(date)).toLocaleDateString()
+    }
+
+    const progress = (start_date, termination_date) => {
+        var datestart = new Date(start_date)
+        var datetermination = new Date(termination_date)
+
+        if (datestart > new Date()) {
+            return "Pendent"
+        } else if (datetermination > new Date()) {
+            return "Open"
+        } else if (datetermination < new Date()) {
+            return "Finished"
+        }
+    }
+
+    const voteController = (progressReturn) => {
+        if(progressReturn == "Pendent" || progressReturn == "Finished"){
+            return true
+        } 
+        return false
     }
 
     return (
@@ -59,7 +76,7 @@ export default function Home() {
                     </div>
                 </nav>
             </header>
-            <br/><br/>
+            <br /><br />
             <table className="table table-striped w-75 text-center border border-1 m-auto">
                 <caption>Registered Polls</caption>
                 <thead className="table-dark">
@@ -80,11 +97,11 @@ export default function Home() {
                                 <td>{val.title}</td>
                                 <td>{dateFormat(val.start_date)}</td>
                                 <td>{dateFormat(val.termination_date)}</td>
-                                <td>Status</td>
-                                <td><button type="button" className="btn btn-warning rounded-pill me-3" onClick={() => vote(val.id)}><i className="fa-solid fa-hand-point-up me-1"></i> 
+                                <td><div id="progressPoll">{progress(val.start_date, val.termination_date)}</div></td>
+                                <td><button id="voteBtn" type="button" className="vote-btn btn btn-warning rounded-pill me-3" disabled={voteController(progress(val.start_date, val.termination_date))} onClick={() => vote(val.id)}><i className="fa-solid fa-hand-point-up me-1"></i>
                                     Vote</button>
-                                    <button type="button" className="btn btn-primary rounded-pill" onClick={() => see(val.id)}><i className="fa-solid fa-eye me-1"></i> 
-                                    See</button>
+                                    <button id="seeBtn" type="button" className="see-btn btn btn-primary rounded-pill" onClick={() => see(val.id)}><i className="fa-solid fa-eye me-1"></i>
+                                        See</button>
                                 </td>
                             </tr>
                         )
