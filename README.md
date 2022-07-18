@@ -60,6 +60,7 @@ The following libraries were used in building the project:
 ### Front-End
 + `Axios`
 + `Bootstrap`
++ `FontAwesome`
 
 ## 🚀 Technologies
 The following technologies were used in building the project:
