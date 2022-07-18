@@ -1,7 +1,7 @@
 import Axios from "axios"
 import React, { useEffect, useState } from "react"
 import ReactDOM from 'react-dom';
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory, useParams, Link } from 'react-router-dom'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 export default function Details() {
@@ -19,8 +19,6 @@ export default function Details() {
             setOptionsList(response.data)
         }, pollId)
         loadPoll(pollId)
-        console.log(poll)
-        progress()
     }, [])
 
     const loadPoll = (pollId) => {
@@ -29,41 +27,53 @@ export default function Details() {
         })
     }
 
-    const progress = () => {
-        var datestart = new Date(poll.start_date)
-        var datetermination = new Date(poll.termination_date)
+    const progress = (start_date, termination_date) => {
+        var datestart = new Date(start_date)
+        var datetermination = new Date(termination_date)
         var timeElapsed = Date.now();
         var today = new Date(timeElapsed);
 
-        const progressnow = <p class="text-success">In progress, vote now!</p>
-        const finished = <p class="text-success">In progress, vote now!</p>
+        console.log(datestart)
+        console.log(datetermination)
+        console.log(today)
+
+        const progressnow = <p class="text-success">In progress, <Link to="/">vote now</Link>!</p>
+        const finished = <p class="text-danger">Already Finished!</p>
         const pendent = <p class="text-warning">Not Started!</p>
 
-        if (datestart > today) {
+        if (datestart > new Date()) {
             ReactDOM.render(
                 pendent,
                 document.getElementById("progressPoll")
             )
-        } else if (datetermination > today) {
+        } else if (datetermination >  new Date()) {
             ReactDOM.render(
                 progressnow,
                 document.getElementById("progressPoll")
             )
-        } if (datetermination < today) {
+        } else if (datetermination <  new Date()) {
             ReactDOM.render(
                 finished,
                 document.getElementById("progressPoll")
             )
         }
     }
+    
+    const dateFormat = (date) => {
+        return (new Date(date)).toLocaleDateString()
+    }
 
     const calculateVotes = (vote) => {
         var total = 0;
+        var calculate = 0;
         optionsList.map((op) => {
-            console.log(op.votes)
             total += op.votes
-            console.log(total)
         })
+
+        calculate = (vote * 100) / total
+        if(isNaN(calculate) || calculate == undefined){
+            return 0
+        }
         return (vote * 100) / total
     }
 
@@ -97,7 +107,8 @@ export default function Details() {
                             )                        
                     })}
                 </div>
-                <div id="progressPoll"></div>
+                <div id="progressPoll">{progress(poll.start_date, poll.termination_date)}</div>
+                <small>From {dateFormat(poll.start_date)} to {dateFormat(poll.termination_date)}</small>
             </ModalBody>
             <ModalHeader>
                 <button className="btn btn-secondary" onClick={() => redirectPage()}>Come Back</button>

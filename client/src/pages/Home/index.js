@@ -28,6 +28,10 @@ export default function Home() {
         history.push(`details/${pollId}`)
     }
 
+    const dateFormat = (date) => {
+        return (new Date(date)).toLocaleDateString()
+    }
+
     return (
         <div>
             <header>
@@ -74,8 +78,8 @@ export default function Home() {
                             <tr key={val.id}>
                                 <td>{val.id}</td>
                                 <td>{val.title}</td>
-                                <td>{(new Date(val.start_date)).toLocaleDateString()}</td>
-                                <td>{(new Date(val.termination_date)).toLocaleDateString()}</td>
+                                <td>{dateFormat(val.start_date)}</td>
+                                <td>{dateFormat(val.termination_date)}</td>
                                 <td>Status</td>
                                 <td><button type="button" className="btn btn-warning rounded-pill me-3" onClick={() => vote(val.id)}><i className="fa-solid fa-hand-point-up me-1"></i> 
                                     Vote</button>
