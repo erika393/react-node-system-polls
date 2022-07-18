@@ -137,7 +137,7 @@ export default function Home() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filter.map((val) => {
+                        {pollList.map((val) => {
                             return (
                                 <tr key={val.id}>
                                     <td>{val.id}</td>
