@@ -8,10 +8,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 export default function Vote() {
     const [optionId, setOptionId] = useState(null)
-    const [name, setName] = useState("")
-    const [titlePoll, setTitlePoll] = useState("")
     const [descriptionPoll, setDescriptionPoll] = useState("")
-    const [idPoll, setIdPoll] = useState(null)
     const [optionsList, setOptionsList] = useState([])
     const [option, setOption] = useState({})
     const [poll, setPoll] = useState({})

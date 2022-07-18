@@ -1,5 +1,5 @@
 import Axios from "axios"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useHistory, Link } from 'react-router-dom'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
@@ -12,10 +12,6 @@ export default function Poll() {
     const [start_date, setStart_date] = useState("")
     const [termination_date, setTermination_date] = useState("")
     const [count, setCount] = useState(3)
-    const [pollId, setPollId] = useState("")
-    const [pollId1, setPollId1] = useState({})
-    const [pollId2, setPollId2] = useState([])
-    const [pollId3, setPollId3] = useState(null)
     const [optionsList, setOptionsList] = useState([])
     const [currentOption, setCurrentOption] = useState("")
     const ReactDOM = require('react-dom')
