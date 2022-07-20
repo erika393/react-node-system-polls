@@ -1,4 +1,6 @@
 # react-node-system-polls
+<img src="introduction.gif" align="center" width="600px"></img>
+
 Project that manages polls with NodeJS and ReactJS
 
 ### Adjustments and Improvements
