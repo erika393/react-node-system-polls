@@ -30,6 +30,8 @@ app.post('/api/poll/create', (req, res) => {
     console.log(result)
     if (err) console.log(err)
   })
+
+
 })
 
 app.get('/api/poll/read', (req, res) => {
@@ -54,7 +56,8 @@ app.get('/api/poll/readLast', (req, res) => {
   const sqlSelect = "SELECT id FROM systempolldb.polls ORDER BY id DESC LIMIT 1"
   db.query(sqlSelect, (err, result) => {
     res.send(result)
-    console.log(result)
+    console.log(result);
+    console.log(" esse é o last");
   })
 })
 

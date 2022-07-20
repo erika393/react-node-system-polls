@@ -12,6 +12,7 @@ export default function Vote() {
     const [optionsList, setOptionsList] = useState([])
     const [option, setOption] = useState({})
     const [poll, setPoll] = useState({})
+    const [countClick, setCountClick] = useState(1)
 
     const { pollId } = useParams()
 
@@ -34,17 +35,23 @@ export default function Vote() {
         history.push(`/`)
     }
 
-    const vote = (pollId, optionId) => {
-        Axios.get(`http://localhost:3001/api/options/read/${optionId}/${pollId}`).then((response => {
+    async function vote(pollId, optionId) {
+        setCountClick(countClick + 1)
+        await Axios.get(`http://localhost:3001/api/options/read/${optionId}/${pollId}`).then((response => {
             setOption(response.data[0])
         }))
+        createOption(pollId, optionId)
+        if(countClick == 2){
+            history.push("/")
+        }
+    }
 
+    const createOption = (pollId, optionId) => {
         Axios.put(`http://localhost:3001/api/vote/${optionId}`, {
             name: option.name,
             id_poll: pollId,
             votes: (option.votes) + 1,
         })
-        //history.push("/")
     }
 
     return (

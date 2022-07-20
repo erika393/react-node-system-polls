@@ -11,37 +11,15 @@ export default function Poll() {
     const [description, setDescription] = useState("")
     const [start_date, setStart_date] = useState("")
     const [termination_date, setTermination_date] = useState("")
-    const [count, setCount] = useState(3)
+    const [countClick, setCountClick] = useState(1)
     const [optionsList, setOptionsList] = useState([])
     const [currentOption, setCurrentOption] = useState("")
     const ReactDOM = require('react-dom')
 
     const history = useHistory()
 
-    const optionInput = <div><label class="form-label">Option {count}</label><input  type="text" class="form-control" onChange={(e) => setOptionsList(e.target.value)}></input></div>
     const error = <Error />
     const success = <Success />
-
-    const handleAddOption = () => {
-        setCount(count + 1)
-        ReactDOM.render(
-            optionInput,
-            document.getElementsByClassName("more-option")
-        )
-    }
-
-    const handleDate = () => {
-        var datestart = new Date(start_date)
-        var datetermination = new Date(termination_date)
-        if (datetermination < datestart) {
-            setStart_date("")
-            setTermination_date("")
-            alert("the end date cannot be earlier than the start date")
-            return false
-        } else {
-            return true
-        }
-    }
 
     const handleChangeOption = () => {
         if (currentOption.length < 2) {
@@ -52,17 +30,20 @@ export default function Poll() {
                 currentOption
             ])
         }
+        setCurrentOption("")
     }
 
-    const submitPoll = () => {
+    async function submitPoll(){
         var id_poll;
+        //setCountClick(countClick + 1)
+        //console.log(countClick)
 
         if(start_date > termination_date){
             alert("Start Date cannot be less the end date!")
         }else if(optionsList.length < 3){
             alert("Add at least 3 options!")
         }else{
-            Axios.post(`http://localhost:3001/api/poll/create`, {
+            await Axios.post(`http://localhost:3001/api/poll/create`, {
                 title: title,
                 description: description,
                 start_date: start_date,
@@ -80,6 +61,7 @@ export default function Poll() {
                     })
                 })
             })
+            history.push("/")
         }
         
     }
@@ -120,12 +102,10 @@ export default function Poll() {
                             <div class="row">
                                 <div class="col">
                                     <label class="form-label" for="option">Name Option</label>
-                                    <input  type="text" class="form-control" name="option" minLength="2" onChange={(e) => setCurrentOption(e.target.value)}></input>
+                                    <input  type="text" class="form-control" name="option" minLength="2" value={currentOption} onChange={(e) => setCurrentOption(e.target.value)}></input>
                                     <button type="button" onClick={handleChangeOption} className="rounded-pill bg-warning border border-warning text-white mt-2">Send Option</button>
                                 </div>
                             </div>
-                            {/* <small><a onClick={() => handleAddOption()}>Add one more option</a></small> */}
-                            <div class="more-option"></div>
                         </div>
                     </fieldset>
                 </ModalBody>

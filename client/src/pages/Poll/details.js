@@ -73,7 +73,8 @@ export default function Details() {
         if(isNaN(calculate) || calculate == undefined){
             return 0
         }
-        return (vote * 100) / total
+        calculate = Math.round(calculate)
+        return calculate
     }
 
     const widthProgress = (vote) => {
