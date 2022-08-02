@@ -60,7 +60,6 @@ To use it, follow these steps:
 
 ## 📚 Libraries
 The following libraries were used in building the project:
-### Front-End
 + `Axios`
 + `Bootstrap`
 + `FontAwesome`
