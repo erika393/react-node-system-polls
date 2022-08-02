@@ -13,6 +13,7 @@ The project is still in development and the next updates will focus on the follo
 ## 📋 Prerequisites
 Before starting, make sure you have met the prerequisites.
 * You installed a code editor (vs code preferred)
+* You installed NodeJS (npm)
 * You installed MySQL
 
 
